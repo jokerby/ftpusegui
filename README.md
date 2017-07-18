@@ -1,2 +1,2 @@
 # ftpusegui
-GUI for ftuse - program for mapping ftp-server as drive
+GUI for ftpuse - program for mapping ftp-server as drive
