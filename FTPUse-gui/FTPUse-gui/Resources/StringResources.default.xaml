@@ -18,7 +18,7 @@
     <system:String x:Key="ActiveChoice">Active mode</system:String>
     <system:String x:Key="PassiveChoice">Passive mode</system:String>
     <system:String x:Key="ModeAdvice">Establishes an active or a passive connection with the FTP server</system:String>
-    <system:String x:Key="MapChoice">Map drive</system:String>
-    <system:String x:Key="DeleteChoice">Delete mapped drive</system:String>
+    <system:String x:Key="MapChoice">Mount drive</system:String>
+    <system:String x:Key="DeleteChoice">Unmount drive</system:String>
     <system:String x:Key="Run">Run</system:String>
 </ResourceDictionary>

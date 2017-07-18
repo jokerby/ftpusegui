@@ -3,12 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FTPUse_gui"
         xmlns:helpers="clr-namespace:FTPUse_gui.Helpers"
         mc:Ignorable="d"
         Title="FTPUse GUI"
-        Height="350"
-        Width="525">
+        Height="300"
+        MinHeight="300"
+        Width="245"
+        MinWidth="245"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <helpers:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
         <Style x:Key="LabelStyle"
@@ -34,6 +36,19 @@
                     Value="Center"/>
             <Setter Property="TextAlignment"
                     Value="Left"/>
+            <Setter Property="IsEnabled"
+                    Value="{Binding IsEnabledInput, Mode=OneWay}"/>
+        </Style>
+        <Style x:Key="RadioButtonStyle"
+               TargetType="RadioButton">
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center"/>
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -41,29 +56,23 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="33"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <RadioButton Grid.Column="0"
                          GroupName="MapUnmapGroup"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"
                          Content="{DynamicResource MapChoice}"
-                         IsChecked="{Binding Path=SelectedAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Map}"/>
+                         IsChecked="{Binding Path=SelectedAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Map}"
+                         Style="{StaticResource RadioButtonStyle}"/>
             <RadioButton Grid.Column="1"
                          GroupName="MapUnmapGroup"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"
                          Content="{DynamicResource DeleteChoice}"
-                         IsChecked="{Binding Path=SelectedAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Unmap}"/>
+                         IsChecked="{Binding Path=SelectedAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Unmap}"
+                         Style="{StaticResource RadioButtonStyle}"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
@@ -77,8 +86,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0"
                    Grid.Column="0"
@@ -89,13 +98,25 @@
                       Grid.Column="1"
                       ItemsSource="{Binding DrivesList, Mode=OneWay}"
                       SelectedValuePath="Key"
-                      DisplayMemberPath="Key"
                       SelectedItem="{Binding Letter, Mode=TwoWay}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Left"
                       VerticalContentAlignment="Center"
-                      ToolTip="{DynamicResource LetterAdvice}"/>
+                      ToolTip="{DynamicResource LetterAdvice}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}   {1}">
+                                    <Binding Path="Key"/>
+                                    <Binding Path="Value"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Label Grid.Row="1"
                    Grid.Column="0"
                    Content="{DynamicResource Hostname}"
@@ -149,23 +170,19 @@
             <RadioButton Grid.Row="6"
                          Grid.Column="0"
                          GroupName="ActivePassiveGroup"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"
                          Content="{DynamicResource ActiveChoice}"
                          ToolTip="{DynamicResource ModeAdvice}"
-                         IsChecked="{Binding Path=SelectedMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Active}"/>
+                         IsEnabled="{Binding IsEnabledInput, Mode=OneWay}"
+                         IsChecked="{Binding Path=SelectedMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Active}"
+                         Style="{StaticResource RadioButtonStyle}"/>
             <RadioButton Grid.Row="6"
                          Grid.Column="1"
                          GroupName="ActivePassiveGroup"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"
                          Content="{DynamicResource PassiveChoice}"
                          ToolTip="{DynamicResource ModeAdvice}"
-                         IsChecked="{Binding Path=SelectedMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Passive}"/>
+                         IsEnabled="{Binding IsEnabledInput, Mode=OneWay}"
+                         IsChecked="{Binding Path=SelectedMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Passive}"
+                         Style="{StaticResource RadioButtonStyle}"/>
             <Label Grid.Row="7"
                    Grid.Column="0"
                    Content="{DynamicResource Debug}"
@@ -177,13 +194,13 @@
                       VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Left"
                       VerticalContentAlignment="Center"
-                      Content="{DynamicResource Debug}"
                       ToolTip="{DynamicResource DebugAdvice}"
                       IsChecked="{Binding Path=Debug, Mode=TwoWay}"
                       IsEnabled="False"/>
         </Grid>
         <Button Grid.Row="3"
                 Content="{DynamicResource Run}"
+                IsEnabled="{Binding IsEnabledButton}"
                 Command="{Binding Path=Run}"/>
     </Grid>
 </Window>

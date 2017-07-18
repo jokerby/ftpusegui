@@ -11,13 +11,15 @@ namespace FTPUse_gui.Helpers
             _handler = handler;
         }
 
+        #region ICommand
         public bool CanExecute(object parameter) => true;
-
-        public event EventHandler CanExecuteChanged;
+        
+        public event EventHandler CanExecuteChanged { add { } remove { } }
 
         public void Execute(object parameter)
         {
             _handler();
         }
+        #endregion
     }
 }
